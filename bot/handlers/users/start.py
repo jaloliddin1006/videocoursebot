@@ -157,7 +157,7 @@ async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery)
         full_name=pre_checkout_query.order_info.name,
         phone_number=pre_checkout_query.order_info.phone_number,
         email=pre_checkout_query.order_info.email,
-        total_price=pre_checkout_query.total_amount,
+        total_price=int(pre_checkout_query.total_amount)/100,
         promo_code=pre_checkout_query.invoice_payload.split(' | ')[1],
         is_paid=True
     )
@@ -165,20 +165,22 @@ async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery)
     if s in [201, 200]:
         user = pre_checkout_query.from_user
         await bot.send_message(chat_id=user.id,
-                           text="Xaridingiz uchun rahmat!")
+                           text="Xaridingiz uchun rahmat!", reply_markup=menu_btn)
         await bot.send_message(chat_id=ADMINS[0],
                            text=f"ID: {pre_checkout_query.id}\n"
                                 f"Tarif: {pre_checkout_query.invoice_payload.split(' | ')[0]}\n"
                                 f"Promo Code: {pre_checkout_query.invoice_payload.split(' | ')[1]}\n"
-                                f"To'lov miqdori: {pre_checkout_query.total_amount} so'm\n"
+                                f"To'lov miqdori: {int(pre_checkout_query.total_amount)/100} so'm\n"
                                 f"Telegram user:  <a href='tg://user?id={user.id}'>{user.full_name}</a>\n"                                
                                 f"Username: @{user.username or ''}\n"                                
                                 f"Xaridor: {pre_checkout_query.order_info.name}, \nTel: {pre_checkout_query.order_info.phone_number}\n"
-                                f"Email: {pre_checkout_query.order_info.email}\n"                                
+                                f"Email: {pre_checkout_query.order_info.email}\n",
+                                reply_markup=menu_btn, 
+                                parse_mode="HTML"                                
                                 )
     else:
         await bot.send_message(chat_id=pre_checkout_query.from_user.id,
-                           text="Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring!")
+                           text="Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring!", reply_markup=menu_btn)
 
 
 

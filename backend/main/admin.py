@@ -9,17 +9,17 @@ class OrderResources(resources.ModelResource):
     
     class Meta:
         model = models.Order
-        fields = "__all__"
-        # fields = ("id", "user__full_name",  "phone_number", "total_price", "total_price_with_discount", "is_paid", "created_at")
-        # export_order = ("id", "user__full_name", "phone_number", "total_price", "total_price_with_discount", "is_paid", "created_at")
+        # fields = "__all__"
+        fields = ("check_id", "full_name",  "phone_number", "email", "promo_code", "discount", "total_price", "total_price_with_discount", "is_paid", "created_at")
+        export_order = ("check_id", "full_name",  "phone_number", "email", "promo_code", "discount", "total_price", "total_price_with_discount", "is_paid", "created_at")
         
         
 
 @admin.register(models.BotUsers)
 class BotUsersAdmin(admin.ModelAdmin):
-    list_display = ("id", "telegram_id", "telegram_full_name", "telegram_phone_number", "promo_code", "created_at")
-    search_fields = ("telegram_id", "full_name", "phone_number", "promo_code")
-    list_filter = ("created_at",)
+    list_display = ("id", "telegram_id", "telegram_username", "telegram_full_name", "telegram_phone_number", "promo_code", "created_at")
+    search_fields = ("telegram_id", "telegram_phone_number", "promo_code")
+    list_filter = ("created_at", "promo_code")
 
 @admin.register(models.PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
