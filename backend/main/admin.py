@@ -29,9 +29,9 @@ class PromoCodeAdmin(admin.ModelAdmin):
     
 @admin.register(models.Order)
 class OrderAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ("id", "telegram_id", "full_name", "phone_number", "email", "total_price_with_discount", "promo_code", "is_paid", "created_at")
+    list_display = ("check_id", "telegram_id", "full_name", "phone_number", "email", "promo_code", "total_price_with_discount", "is_paid", "created_at")
     search_fields = ("full_name", "phone_number")
-    list_filter = ( "created_at",)
+    list_filter = ( "created_at", "promo_code")
     resource_classes = [OrderResources]
     # actions = None
     # readonly_fields = ( "total_price", "total_price_with_discount", "promo_code", "is_paid", "phone_number", "created_at")

@@ -18,7 +18,7 @@ class PromoCodeSerializer(serializers.ModelSerializer):
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ("user", "full_name", "phone_number", "email", "total_price", "is_paid")
+        fields = ("check_id", "user", "full_name", "phone_number", "email", "total_price", "promo_code", "is_paid")
         
 # class OrderUpdateSerializer(serializers.ModelSerializer):
 #     class Meta:

@@ -1,6 +1,9 @@
 django~=4.2.5
 djangorestframework~=3.14.0
+django-import-export~=3.3.1
 django-jazzmin~=2.6.0
+drf_yasg~=1.21.7
+
 environs~=9.5.0
 requests~=2.31.0
 aiogram~=2.9
