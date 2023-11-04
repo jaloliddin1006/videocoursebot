@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
+    "import_export",
     'mptt',
     'main',
 ]
@@ -44,6 +46,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+# drf-yasg settings
+SWAGGER_SETTINGS = {
+    'DEFAULT_GENERATOR_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
+    # Other settings...
+}
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

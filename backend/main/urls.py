@@ -8,4 +8,7 @@ router.register(r'botuser', views.BotUserViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('promo/<str:promo_code>/', views.GetPromoCodesView.as_view()),
+    path('order/create/', views.OrderCreateView.as_view()),
+    # path('order/update/<int:telegram_id>/<int:pk>/', views.OrderValuesUpdate.as_view()),
 ]

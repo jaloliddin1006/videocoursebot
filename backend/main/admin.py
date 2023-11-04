@@ -1,38 +1,41 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 from . import models
-
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
-
-@admin.register(models.Category)
-class CategoryAdmin(DraggableMPTTAdmin):
-    sortable = 'name'
-    mptt_indent_field = "name"
-    search_fields = ("name",)    
-    list_display = ("id",'tree_actions', 'indented_title', "name", "parent", "created_at", "is_active")
-    list_editable = ("is_active", )
-    list_display_links = ( "name", "indented_title")
-
-    list_filter = ("name", "is_active")
+class OrderResources(resources.ModelResource):
     
+    class Meta:
+        model = models.Order
+        fields = "__all__"
+        # fields = ("id", "user__full_name",  "phone_number", "total_price", "total_price_with_discount", "is_paid", "created_at")
+        # export_order = ("id", "user__full_name", "phone_number", "total_price", "total_price_with_discount", "is_paid", "created_at")
+        
+        
 
 @admin.register(models.BotUsers)
-class BotUserAdmin(admin.ModelAdmin):
-    list_display = ("id", "first_name", "last_name", "username", "created_at", "is_active")
-    search_fields = ("first_name", "last_name", "username")
+class BotUsersAdmin(admin.ModelAdmin):
+    list_display = ("id", "telegram_id", "telegram_full_name", "telegram_phone_number", "promo_code", "created_at")
+    search_fields = ("telegram_id", "full_name", "phone_number", "promo_code")
     list_filter = ("created_at",)
 
+@admin.register(models.PromoCode)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "promo_code", "discount", "created_at", "is_active")
+    search_fields = ("promo_code", "user")
+    list_filter = ("created_at",)
+    
+@admin.register(models.Order)
+class OrderAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ("id", "telegram_id", "full_name", "phone_number", "email", "total_price_with_discount", "promo_code", "is_paid", "created_at")
+    search_fields = ("full_name", "phone_number")
+    list_filter = ( "created_at",)
+    resource_classes = [OrderResources]
+    # actions = None
+    # readonly_fields = ( "total_price", "total_price_with_discount", "promo_code", "is_paid", "phone_number", "created_at")
+    
 
-@admin.register(models.Feedback)
-class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "created_at")
-    list_filter = ("created_at", "user")
-
-
-@admin.register(models.CourseSource)
-class CourseSourceAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "category", "source", "created_at", "is_active")
-    list_editable = ("is_active", )
-    list_filter = ("created_at", "is_active", "category")
-    search_fields = ("name", "category__name")
+    
+    
