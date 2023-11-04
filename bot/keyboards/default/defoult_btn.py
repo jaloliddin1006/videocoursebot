@@ -1,16 +1,31 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 
 menu_btn = ReplyKeyboardMarkup(
     keyboard=[
+          [
+            KeyboardButton(text="🌐 Ta'riflar"),
+            KeyboardButton(text="📊 Obuna"),
+        ] ,
         [
-            KeyboardButton(text="📚 Online darslar"),
-        ],
+            KeyboardButton(text="☎️ To'lov bo'yicha bog'lanish"),
+        ], 
         [
-            KeyboardButton(text="✍️ Xabar yozish"),
-        ]
+            KeyboardButton(text="ℹ️ Biz haqimizda"),
+        ] 
         
         ],
     resize_keyboard=True, input_field_placeholder="Menu")
+
+
+phone_btn = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="📞 Telefon raqam yuborish", request_contact=True),
+        ]
+        ],
+    resize_keyboard=True, input_field_placeholder="Menu")
+
+
 
 def get_book_category_btn(books_category, page):
 

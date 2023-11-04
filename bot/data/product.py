@@ -5,28 +5,32 @@ from utils.misc.product import Product
 
 
 python_book = Product(
-    title="Pythonda Dasturlash Asoslari",
-    description="Kitobga to'lov qilish uchun quyidagi tugmani bosing.",
+    title="Online Course dan barchasi 1 ta narxda",
+    description="Ushbu tarif uchun to'lovni amalga oshirmoqchi bo'lsangiz, quyidagi tugmani bosing va to'lovni amalga oshiring.",
     currency="UZS",
     prices=[
         LabeledPrice(
             label='Umumiy kurs narxi',
-            amount=5600000 * 100,  
+            amount=242000 * 100,  
         ),
        
          LabeledPrice(
             label='Promo Code:',
-            amount=250000 * 100, 
+            amount=0, 
         ),
     ],
-    start_parameter="create_invoice_python_book",
-    photo_url='https://i.imgur.com/0IvPPun.jpg',
-    photo_width=851,
+    start_parameter="create_invoice_courses",
+    photo_url='https://school.rajaawasthi.com/uploads/thumbnails/course_thumbnails/course_thumbnail_default_5.jpg',
+    photo_width=1280,
     photo_height=1280,
     need_name=True,
     need_phone_number=True,
-    need_shipping_address=True,
-    is_flexible=True,
+    need_email=True,
+    send_email_to_provider = True,
+    need_shipping_address=False,
+    is_flexible=False,
+    # promo_code="PROMO123",  # Promo kod
+    # discount_amount=1000,  # Chegirma miqdori
 )
 
 REGULAR_SHIPPING = types.ShippingOption(
