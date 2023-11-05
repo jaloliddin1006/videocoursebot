@@ -11,7 +11,7 @@ python_book = Product(
     prices=[
         LabeledPrice(
             label='Umumiy kurs narxi',
-            amount=242000 * 100,  
+            amount=179000 * 100,  
         ),
        
          LabeledPrice(

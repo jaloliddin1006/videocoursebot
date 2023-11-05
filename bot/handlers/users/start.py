@@ -157,7 +157,7 @@ async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery)
         full_name=pre_checkout_query.order_info.name,
         phone_number=pre_checkout_query.order_info.phone_number,
         email=pre_checkout_query.order_info.email,
-        total_price=242000,
+        total_price=179000,
         promo_code=pre_checkout_query.invoice_payload.split(' | ')[1],
         is_paid=True
     )
