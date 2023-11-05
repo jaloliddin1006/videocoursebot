@@ -2,7 +2,7 @@ from rest_framework import generics, filters
 from .models import BotUsers, PromoCode, Order
 from .serializers import BotUserSerializer, PromoCodeSerializer, OrderCreateSerializer
 from rest_framework.viewsets import ModelViewSet
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 
@@ -80,3 +80,15 @@ class OrderCreateView(generics.CreateAPIView):
 #         serializer.save()
 #         return Response({"status": True, "message": "Order updated successfully"}, status=200)
         
+        
+        
+from rest_framework.views import exception_handler
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
+
+def custom_exception_handler(exc, context):
+    if isinstance(exc, NotFound):
+        return Response({'error': 'Ma\'lumot topilmadi'}, status=404)
+
+    response = exception_handler(exc, context)
+    return response
