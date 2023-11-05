@@ -1,7 +1,7 @@
 import requests
 import json
 
-BASE_URL = "http://167.99.244.26:8001"
+BASE_URL = "https://admin.mamatmusayev.uz"
 
 ######## createuser ############
 def create_user(telegram_id, telegram_full_name, telegram_username, telegram_phone_number):
