@@ -5,7 +5,7 @@ def build_keyboard(product, promo_code=None):
     if promo_code:
         keys = InlineKeyboardMarkup(inline_keyboard=[
             [
-                InlineKeyboardButton(text="Yillik obuna  242.000 so'm", callback_data=f"product:{product}"),
+                InlineKeyboardButton(text="Yillik obuna  179.000 so'm", callback_data=f"product:{product}"),
             ],
              [
                 InlineKeyboardButton(text="PromoCode Active ✅", callback_data=f"promocode:{promo_code}"),
@@ -14,7 +14,7 @@ def build_keyboard(product, promo_code=None):
     else:
         keys = InlineKeyboardMarkup(inline_keyboard=[
             [
-                InlineKeyboardButton(text="Yillik obuna  242.000 so'm", callback_data=f"product:{product}"),
+                InlineKeyboardButton(text="Yillik obuna  179.000 so'm", callback_data=f"product:{product}"),
             ],
             [
                 InlineKeyboardButton(text="PromoCode bormi?", callback_data=f"promocode"),
