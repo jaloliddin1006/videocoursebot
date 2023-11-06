@@ -46,7 +46,7 @@ async def bot_start(message: types.Message, state=FSMContext):
 async def input_name(message: types.Message, state: FSMContext):
     name = message.text
     await state.update_data(name=name)
-    await message.answer(f"Telefon raqamingizni yuboring 👇", reply_markup=phone_btn)
+    await message.answer(f"Quidagi tugma orqali o'z telefon raqamingizni yuboring 👇", reply_markup=phone_btn)
     await state.set_state("phone")
     
 @dp.message_handler(state="phone" , content_types=types.ContentTypes.CONTACT)
