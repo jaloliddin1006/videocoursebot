@@ -11,15 +11,21 @@ from data.product import python_book
 from data.config import ADMINS
 
 async def send_yillik_tarif(message: types.Message, user_id):
-    txt = "Ushbu bot orqali siz bizning kurslarimiz haqida ma'lumot olishingiz va xarid qilishingiz mumkin.\n\n"
-    txt += "Ushbu tarifda siz quidagi kurslarni olishingiz mumkin:\n\n"
-    txt += "1. Pythonda Dasturlash Asoslari\n"
-    txt += "2. Full Stack Web Developer\n"
-    txt += "3. Android Developer\n"
-    txt += "4. IOS Developer\n"
-    txt += "5. Java Developer\n"
-    txt += "6. C# Developer\n"
-    
+    txt =  "Narxi 1 yil uchun: 2 459 000 so'm\n"
+    txt += """
+    Batafsil:
+- Platformadan foydalanish muddati - 1 yil
+- 10 dan ortiq zamonaviy kasblarni o'rganish
+uchun maxsus kurslar
+- Kurslardan tashqari taniqli sport ustalaridan
+maxsus sog'ligingizni tanangizni yaxshilash
+uchun videodarsliklar
+- Yopiq chat va ekspertlar bilan doimiy
+muloqot
+- Ishga joylashish yoki freelancer sifatida
+faoliyat yuritish uchun ko'mak
+- SERTIFIKAT
+- 1 yil davomida kurslarga kirish imkoniyati"""
     user = get_user(user_id)
     # print(user)
     if user['data']['promo_code']:
@@ -46,7 +52,7 @@ async def bot_start(message: types.Message, state=FSMContext):
 async def input_name(message: types.Message, state: FSMContext):
     name = message.text
     await state.update_data(name=name)
-    await message.answer(f"Quidagi tugma orqali o'z telefon raqamingizni yuboring 👇", reply_markup=phone_btn)
+    await message.answer(f"Telefon raqamingizni +9989******** ko'rinishida yuboring yoki Telefon raqamni yuborish tugmasini bosing 👇", reply_markup=phone_btn)
     await state.set_state("phone")
     
 @dp.message_handler(state="phone" , content_types=types.ContentTypes.CONTACT)
@@ -57,7 +63,6 @@ async def input_phone(message: types.Message, state: FSMContext):
     telegram_username = message.from_user.username or ''
     telegram_id = message.from_user.id
     
-    # print(telegram_id, telegram_full_name, telegram_username, telegram_phone_number)
     s = create_user(
         telegram_id=int(telegram_id),
         telegram_full_name=telegram_full_name,
@@ -65,22 +70,46 @@ async def input_phone(message: types.Message, state: FSMContext):
         telegram_phone_number=telegram_phone_number
         
     )
-    # s = create_user(2342342377,"newuserrrrrr","usename", "99995523255")
-    # print(s)
-    # await time.sleep(1)
-    await message.answer(f"Ro'yxatdan o'tdingiz!", reply_markup=menu_btn)
+    await message.answer(f"Obuna EDU'ning rasmiy botiga xush kelibsiz!", reply_markup=menu_btn)
     await send_yillik_tarif(message, telegram_id)
     await state.finish()
     
 @dp.message_handler(state="phone")
 async def input_phone(message: types.Message, state: FSMContext):
-    await message.answer(f"Telefon raqamingizni yuboring 👇", reply_markup=phone_btn)
-    await state.set_state("phone")
+    phone = message.text.replace("+", "").strip()
+    if phone.isdigit() and len(phone) == 12:
+        telegram_phone_number = phone
+        data = await state.get_data()
+        telegram_full_name = data.get("name")
+        telegram_username = message.from_user.username or ''
+        telegram_id = message.from_user.id
+        s = create_user(
+            telegram_id=int(telegram_id),
+            telegram_full_name=telegram_full_name,
+            telegram_username=telegram_username,
+            telegram_phone_number=telegram_phone_number
+            
+        )
+        await message.answer(f"Obuna EDU'ning rasmiy botiga xush kelibsiz!", reply_markup=menu_btn)
+        await send_yillik_tarif(message, telegram_id)
+        await state.finish()
+    else:
+        
+        await message.answer(f"Telefon raqamingizni yuboring 👇", reply_markup=phone_btn)
+        await state.set_state("phone")
     
-@dp.message_handler(text="🌐 Ta'riflar")
-async def send_tariflar(message: types.Message):
-    await message.answer("Tariflar", reply_markup=menu_btn)
-    await send_yillik_tarif(message, message.from_user.id)
+@dp.callback_query_handler(text="price:yillik")
+async def process_callback_price(call: CallbackQuery):
+    await call.answer()
+    await call.message.delete()
+    await send_yillik_tarif(call.message, call.from_user.id)
+    
+@dp.callback_query_handler(text="price:oylik")
+async def process_callback_price(call: CallbackQuery):
+    await call.answer()
+    await call.message.delete()
+    await call.message.answer("Oylik bo'lib to'lash hozircha mavjud emas!", reply_markup=menu_btn)
+    
 
 
 @dp.callback_query_handler(text="promocode")
@@ -96,7 +125,7 @@ async def input_promo(message: types.Message, state: FSMContext):
     promo = check_promo_code(promo_code)
     if promo['status_code'] == 200:
         update_promo_code(message.from_user.id, promo_code)
-        await message.answer("Promo kod aktivlashdi ✅")
+        await message.answer("Promokod aktivlashtirildi ✅")
         await message.answer(f"Chegirma miqdori: {promo['data']['discount']} so'm.")
     else:
         await message.answer("Promo kod noto'g'ri ❌")
@@ -157,7 +186,7 @@ async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery)
         full_name=pre_checkout_query.order_info.name,
         phone_number=pre_checkout_query.order_info.phone_number,
         email=pre_checkout_query.order_info.email,
-        total_price=179000,
+        total_price=2459000,
         promo_code=pre_checkout_query.invoice_payload.split(' | ')[1],
         is_paid=True
     )
