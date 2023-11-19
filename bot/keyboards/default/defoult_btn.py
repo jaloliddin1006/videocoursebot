@@ -10,7 +10,7 @@ menu_btn = ReplyKeyboardMarkup(
             KeyboardButton(text="☎️ To'lov bo'yicha bog'lanish"),
         ], 
          [
-            KeyboardButton(text="❓ Ko'p beriladigan savollar", url="https://azbo.uz/"),
+            KeyboardButton(text="❓ Ko'p beriladigan savollar", web_app=WebAppInfo(url="https://azbo.uz/")),
         ], 
         [
             KeyboardButton(text="ℹ️ Biz haqimizda"),
